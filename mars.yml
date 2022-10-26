@@ -1,0 +1,10 @@
+host:
+    domain: bulo.one
+    port: 80
+    use_ssl: 0
+    cert_path: ""
+    key_path: ""
+    
+cookie:
+    expire_hours: 20
+    http_only: 1
