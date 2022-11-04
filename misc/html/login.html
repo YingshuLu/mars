@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/css/main.css">
   <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
@@ -12,14 +12,44 @@
   <div class="main">
     <p class="sign" align="center">Sign in</p>
     <form class="form1">
-      <input class="un " type="text" align="center" placeholder="Username">
-      <input class="pass" type="password" align="center" placeholder="Password">
-      <a class="submit" align="center">Sign in</a>
-      <p class="forgot" align="center"><a href="#">Forgot Password?</p>
-            
-                
-    </div>
+      <input class="un " type="text" align="center" id="user" placeholder="Username">
+      <input class="pass" type="password" align="center" id="password" placeholder="Password">
+      <button class="submit" align="center">Sign in</button>
+      <p class="forgot" align="center" onclick="loginpost"><a href="#">Forgot Password?</p> 
+    </form>    
+  </div>
      
 </body>
+
+<script>
+    function loginpost() {
+      window.location.href = "https://www.baidu.com";
+      return;
+      let user = document.querySelector("#user")
+      let password = document.querySelector("#password")
+      let url = window.location.origin + "/rest/login"
+      let xhr = XMLHttpRequest();
+
+      console.log("url:", url);
+      console.log("user:", user);
+      console.log("password:", password);
+    
+      xhr.open("post", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+    
+       // Create a state change callback
+       xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                    
+                        // Print received data from server
+                        result.innerHTML = this.responseText;
+                    
+                    }
+                };
+        var data = JSON.stringify({"user": user.value, "password": password.valur});
+        xhr.send(data)
+        return;
+    }
+</script>
 
 </html>

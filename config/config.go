@@ -15,7 +15,7 @@ func Global() *Config {
 	return globalConfig
 }
 
-func Init() {
+func init() {
 	b, err := os.ReadFile(configFileName)
 	if err != nil {
 		panic(fmt.Sprintf("init mars failure, read file <%s> error: %v", configFileName, err))
@@ -36,11 +36,23 @@ type Host struct {
 }
 
 type Cookie struct {
-	ExpireHours int `yaml:"expire_hours"`
-	HttpOnly    int `yaml:"http_only"`
+	MaxAge   int `yaml:"max_age"`
+	HttpOnly int `yaml:"http_only"`
+	Secure   int `yaml:"secure"`
+}
+
+type Signer struct {
+	Name    string `yaml:"name"`
+	KeyPath string `yaml:"key_path"`
+}
+
+type Security struct {
+	Signer    Signer `yaml:"signer"`
+	Validator Signer `yaml:"validator"`
 }
 
 type Config struct {
-	Host   Host   `yaml:"host"`
-	Cookie Cookie `yaml:"cookie"`
+	Host     Host     `yaml:"host"`
+	Cookie   Cookie   `yaml:"cookie"`
+	Security Security `yaml:"security"`
 }

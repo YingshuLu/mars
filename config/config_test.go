@@ -10,13 +10,13 @@ import (
 func Test_ConfigMarshal(t *testing.T) {
 	c := &Config{
 		Host: Host{
-			Domain: "bulo.one",
+			Domain: "bulo.fun",
 			Port:   80,
 			UseSSL: 0,
 		},
 		Cookie: Cookie{
-			ExpireHours: 20,
-			HttpOnly:    1,
+			MaxAge:   20,
+			HttpOnly: 1,
 		},
 	}
 

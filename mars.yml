@@ -1,10 +1,16 @@
 host:
-    domain: bulo.one
+    domain: bulo.fun
     port: 80
     use_ssl: 0
-    cert_path: ""
-    key_path: ""
-    
+    cert_path: "./cert/bulo.fun_bundle.pem"
+    key_path: "./cert/bulo.fun.key"
+
 cookie:
     expire_hours: 20
     http_only: 1
+
+security:
+    signer:
+      name: rsa_single
+    validator:
+      name: rsa_single
