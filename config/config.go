@@ -51,8 +51,17 @@ type Security struct {
 	Validator Signer `yaml:"validator"`
 }
 
+type Badger struct {
+	ProfileDB string `yaml:"profile_path"`
+}
+
+type Storage struct {
+	Badger Badger `yaml:"badger"`
+}
+
 type Config struct {
 	Host     Host     `yaml:"host"`
 	Cookie   Cookie   `yaml:"cookie"`
 	Security Security `yaml:"security"`
+	Storage  Storage  `yaml:"storage"`
 }

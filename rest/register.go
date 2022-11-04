@@ -34,4 +34,5 @@ func Register(c *gin.Context) {
 		resp.Status = auth.InternalError
 		return
 	}
+	err = setCookie(u, c)
 }

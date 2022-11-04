@@ -1,9 +1,9 @@
 host:
     domain: bulo.fun
-    port: 80
-    use_ssl: 0
-    cert_path: "./cert/bulo.fun_bundle.pem"
-    key_path: "./cert/bulo.fun.key"
+    port: 443
+    use_ssl: 1
+    cert_path: "bulo.fun_bundle.pem"
+    key_path: "bulo.fun.key"
 
 cookie:
     expire_hours: 20
@@ -14,3 +14,7 @@ security:
       name: rsa_single
     validator:
       name: rsa_single
+
+storage:
+    badger:
+      profile_path: ./badger/profile.db

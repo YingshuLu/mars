@@ -19,6 +19,10 @@ func cookie(c *gin.Context) (*http.Cookie, error) {
 	return c.Request.Cookie(oidcKey)
 }
 
+func domain(c *gin.Context) string {
+	return c.Request.URL.Host
+}
+
 func setCookie(u *auth.User, c *gin.Context) error {
 	now := time.Now()
 	u.Thumb = ""
@@ -38,6 +42,6 @@ func setCookie(u *auth.User, c *gin.Context) error {
 
 	httpOnly := conf.Cookie.HttpOnly != 0
 	secure := conf.Cookie.Secure != 0
-	c.SetCookie(oidcKey, string(token), ma, "/", conf.Host.Domain, secure, httpOnly)
+	c.SetCookie(oidcKey, string(token), ma, "/", domain(c), secure, httpOnly)
 	return nil
 }

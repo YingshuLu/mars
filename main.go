@@ -36,7 +36,8 @@ func staticFSRoute(r *gin.Engine) {
 	htmlGroup := r.Group("/html", rest.Auth)
 	htmlGroup.StaticFS("/", http.FS(html))
 
-	r.StaticFileFS("/index.html", "index.html", http.FS(html))
+	r.StaticFileFS("/index.html", "login.html", http.FS(html))
+	r.StaticFileFS("/register.html", "register.html", http.FS(html))
 	r.StaticFileFS("/login.html", "login.html", http.FS(html))
 }
 
@@ -48,7 +49,6 @@ func route(r *gin.Engine) *gin.Engine {
 
 func run(r *gin.Engine) *gin.Engine {
 	cnf := config.Global()
-	fmt.Print(cnf)
 	port := fmt.Sprintf(":%v", cnf.Host.Port)
 	if cnf.Host.UseSSL == 0 {
 		r.Run(port)

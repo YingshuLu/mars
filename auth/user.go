@@ -9,18 +9,24 @@ import (
 	"time"
 
 	badger "github.com/dgraph-io/badger/v3"
+	"github.com/yingshulu/mars/config"
 )
 
-const userDBPath = "./db/user.db"
-
 var (
-	userDB *badger.DB
-	dbOnce sync.Once
+	userDB     *badger.DB
+	dbOnce     sync.Once
+	userDBPath = func() string {
+		f := config.Global().Storage.Badger.ProfileDB
+		if len(f) == 0 {
+			f = "./profile.db"
+		}
+		return f
+	}()
 )
 
 func db() *badger.DB {
 	dbOnce.Do(func() {
-		if userDB != nil {
+		if userDB == nil {
 			db, err := badger.Open(badger.DefaultOptions(userDBPath))
 			if err != nil {
 				panic(fmt.Sprintf("open user badger db path (%v) error: %v", userDBPath, err))
@@ -101,7 +107,8 @@ func Validate(u *User) Status {
 func Add(u *User) error {
 	return db().Update(func(txn *badger.Txn) error {
 		_, err := txn.Get([]byte(u.Name))
-		if err != nil {
+		if err != badger.ErrKeyNotFound {
+			err = fmt.Errorf("%s has been signed up", u.Name)
 			return err
 		}
 

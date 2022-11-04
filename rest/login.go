@@ -35,4 +35,5 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	err = setCookie(u, c)
 }
