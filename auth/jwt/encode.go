@@ -55,7 +55,7 @@ func (e *encoder) base64Encode(d []byte) []byte {
 	if e.err != nil {
 		return nil
 	}
-	return []byte(base64.StdEncoding.EncodeToString(d))
+	return []byte(base64.RawURLEncoding.EncodeToString(d))
 }
 
 func (e *encoder) jsonMarshal(any interface{}) []byte {

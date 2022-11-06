@@ -58,7 +58,7 @@ func (d *decoder) base64Decode(data []byte) []byte {
 	if d.err != nil {
 		return s
 	}
-	s, d.err = base64.StdEncoding.DecodeString(string(data))
+	s, d.err = base64.RawURLEncoding.DecodeString(string(data))
 	return s
 }
 
