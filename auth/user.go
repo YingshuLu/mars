@@ -9,8 +9,11 @@ import (
 	"time"
 
 	badger "github.com/dgraph-io/badger/v3"
+	"github.com/gin-gonic/gin"
 	"github.com/yingshulu/mars/config"
 )
+
+const userKeyname = "mars::user"
 
 var (
 	userDB     *badger.DB
@@ -35,6 +38,15 @@ func db() *badger.DB {
 		}
 	})
 	return userDB
+}
+
+func SetUser(c *gin.Context, u *User) {
+	c.Set(userKeyname, u)
+}
+
+func GetUser(c *gin.Context) *User {
+	u, _ := c.Get(userKeyname)
+	return u.(*User)
 }
 
 // User definition

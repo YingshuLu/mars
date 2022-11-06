@@ -3,6 +3,7 @@ package rest
 import (
 	"fmt"
 	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -30,9 +31,14 @@ func Auth(c *gin.Context) {
 		return
 	}
 
+	token, err := url.QueryUnescape(co.Value)
+	if err != nil {
+		return
+	}
+
 	conf := config.Global()
 	u := &auth.User{}
-	err = jwt.Decode(conf.Security.Validator.Name, []byte(co.Value), u)
+	err = jwt.Decode(conf.Security.Validator.Name, []byte(token), u)
 	if err != nil {
 		return
 	}
@@ -51,5 +57,6 @@ func Auth(c *gin.Context) {
 		return
 	}
 
+	auth.SetUser(c, u)
 	c.Next()
 }
