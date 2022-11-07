@@ -17,4 +17,6 @@ security:
 
 storage:
     badger:
-      profile_path: ./badger/profile.db
+      profile_path: ./badger/mars.db
+    serializer: json
+      

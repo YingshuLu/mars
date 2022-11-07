@@ -36,6 +36,9 @@ func staticFSRoute(r *gin.Engine) {
 	htmlGroup := r.Group("/html", rest.Auth)
 	htmlGroup.StaticFS("/", http.FS(html))
 
+	img, _ := fs.Sub(misc, "img")
+
+	r.StaticFileFS("/favicon.ico", "favicon.ico", http.FS(img))
 	r.StaticFileFS("/index.html", "login.html", http.FS(html))
 	r.StaticFileFS("/register.html", "register.html", http.FS(html))
 	r.StaticFileFS("/login.html", "login.html", http.FS(html))

@@ -3,19 +3,24 @@ package config
 import (
 	"fmt"
 	"os"
+	"sync"
 
 	"gopkg.in/yaml.v3"
 )
 
 const configFileName = "mars.yml"
 
-var globalConfig = &Config{}
+var (
+	globalConfig = &Config{}
+	globalOnce   sync.Once
+)
 
 func Global() *Config {
+	globalOnce.Do(loadConfig)
 	return globalConfig
 }
 
-func init() {
+func loadConfig() {
 	b, err := os.ReadFile(configFileName)
 	if err != nil {
 		panic(fmt.Sprintf("init mars failure, read file <%s> error: %v", configFileName, err))
@@ -56,7 +61,8 @@ type Badger struct {
 }
 
 type Storage struct {
-	Badger Badger `yaml:"badger"`
+	Badger     Badger `yaml:"badger"`
+	Serializer string `yaml:"serializer"`
 }
 
 type Config struct {

@@ -21,7 +21,7 @@ var (
 	userDBPath = func() string {
 		f := config.Global().Storage.Badger.ProfileDB
 		if len(f) == 0 {
-			f = "./profile.db"
+			f = "./badger/mars.db"
 		}
 		return f
 	}()
