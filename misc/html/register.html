@@ -1,0 +1,61 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <!--  -->
+  <script type="application/javascript" src="/script/md5.min.js"></script>
+
+  <title>Sign in</title>
+</head>
+
+<script>
+  function signupPost() {
+    let user = document.querySelector("#user").value
+    let password = document.querySelector("#password").value
+    let confirm = document.querySelector("#confirm").value
+    let url = window.location.origin + "/rest/register"
+    let xhr = new XMLHttpRequest();
+
+    let passmd5 = md5(password);
+    if (passmd5 != md5(confirm)) {
+      document.querySelector("#register").insertAdjacentHTML("afterend", "<p class=\"forgot\" align=\"center\" id=\"error\"><a href=\"#\">Register error</p>");
+      return;
+    }
+  
+    xhr.open("post", url, true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+  
+     // Create a state change callback
+     xhr.onreadystatechange = function () {
+                  if (xhr.status === 200) {
+                      // Print received data from server
+                      window.location.href = window.location.origin + "/html/index.html";
+                  } else {
+                    document.querySelector("#register").insertAdjacentHTML("afterend", "<p class=\"forgot\" align=\"center\" id=\"error\"><a href=\"#\">Register error</p>");
+                  }
+              };
+      var data = JSON.stringify({"name": user, "thumb": passmd5});
+      xhr.send(data);
+      return;
+  }
+</script>
+
+<body>
+  <div class="main">
+    <p class="sign" align="center">Sign up</p>
+    <form class="form1">
+      <input class="un " type="text" align="center" id="user" placeholder="Username">
+      <input class="pass" type="password" align="center" id="password" placeholder="Password">
+      <input class="pass" type="password" align="center" id="confirm" placeholder="Confirm">
+      <button class="submit" type="button" align="center" id="signup" onclick="signupPost()">Sign up</button>
+    </form>    
+  </div>
+     
+</body>
+
+
+
+</html>
