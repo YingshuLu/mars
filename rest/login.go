@@ -8,6 +8,7 @@ import (
 	"github.com/yingshulu/mars/auth"
 )
 
+// Login middleware, auth user and set cookie
 func Login(c *gin.Context) {
 	var resp struct {
 		Status  auth.Status `json:"status"`

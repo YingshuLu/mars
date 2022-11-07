@@ -5,6 +5,7 @@ go 1.19
 require gotest.tools/v3 v3.4.0
 
 require (
+	github.com/agiledragon/gomonkey v2.0.2+incompatible
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect

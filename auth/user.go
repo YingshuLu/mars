@@ -24,15 +24,15 @@ var (
 			f = "./badger/mars.db"
 		}
 		return f
-	}()
+	}
 )
 
 func db() *badger.DB {
 	dbOnce.Do(func() {
 		if userDB == nil {
-			db, err := badger.Open(badger.DefaultOptions(userDBPath))
+			db, err := badger.Open(badger.DefaultOptions(userDBPath()))
 			if err != nil {
-				panic(fmt.Sprintf("open user badger db path (%v) error: %v", userDBPath, err))
+				panic(fmt.Sprintf("open user badger db path (%v) error: %v", userDBPath(), err))
 			}
 			userDB = db
 		}

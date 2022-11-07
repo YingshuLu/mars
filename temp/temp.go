@@ -5,12 +5,33 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"net/url"
+	"sync"
 	"time"
 
 	"github.com/yingshulu/mars/auth"
+	"github.com/yingshulu/mars/config"
 	"github.com/yingshulu/mars/store"
 )
+
+var (
+	tempInstance Temp
+	tempOnce     sync.Once
+)
+
+func Open() Temp {
+	tempOnce.Do(func() {
+		s, err := store.New(config.Global().Storage.Badger.ProfileDB)
+		if err != nil {
+			panic(fmt.Errorf("open temp failure, create db error: %v", err))
+		}
+		tempInstance = &tempUrl{
+			Storage: s,
+		}
+	})
+	return tempInstance
+}
 
 type Temp interface {
 	Gen(u *auth.User, path string, duration time.Duration) (*url.URL, error)
@@ -52,8 +73,7 @@ func (t *tempUrl) Gen(u *auth.User, path string, d time.Duration) (*url.URL, err
 	tu := &url.URL{
 		Path: path,
 	}
-	tu.Query().Add("token", key)
-
+	tu.RawQuery = fmt.Sprintf("token=%v", key)
 	return tu, nil
 }
 
@@ -67,7 +87,11 @@ func (t *tempUrl) Check(u *url.URL) error {
 	}
 
 	if time.Now().Before(s.ExpiredAt) {
-		return errors.New("access expired")
+		return errors.New("url access expired")
+	}
+
+	if u.Path != s.Path {
+		return errors.New("url path not matched")
 	}
 	return nil
 }
